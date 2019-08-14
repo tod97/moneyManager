@@ -1,9 +1,49 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Three
+      Settings
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content></ion-content>
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>History's view</ion-label>
+        <ion-select (ionChange)="storage.setHistoryView(historyView)" [(ngModel)]="historyView">
+          <ion-select-option value="none">None</ion-select-option>
+          <ion-select-option value="daily">Daily</ion-select-option>
+          <ion-select-option value="weekly">Weekly</ion-select-option>
+          <ion-select-option value="monthly">Monthly</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Tag list
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <div *ngFor="let el of tagList">
+          <ion-item-sliding>
+            <ion-item>
+              <ion-icon slot="start" [name]="el.icon" [color]="el.color"></ion-icon>
+              <ion-label>
+                <h1>{{el.name}}</h1>
+              </ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option color="danger" (click)="storage.tagDelete(el)">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </div>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
