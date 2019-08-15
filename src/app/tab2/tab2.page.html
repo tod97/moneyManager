@@ -60,6 +60,7 @@
         <ion-label>Tag Icon</ion-label>
         <ion-select [(ngModel)]="tag.icon">
           <ion-select-option value="medkit">Drug</ion-select-option>
+          <ion-select-option value="cash">Generic</ion-select-option>
           <ion-select-option value="heart">Party</ion-select-option>
           <ion-select-option value="cart">Shopping</ion-select-option>
           <ion-select-option value="desktop">Tech</ion-select-option>
@@ -71,9 +72,13 @@
         <ion-label>Tag Color</ion-label>
         <ion-select [(ngModel)]="tag.color">
           <ion-select-option value="primary">Blue</ion-select-option>
-          <ion-select-option value="secondary">Green</ion-select-option>
+          <ion-select-option value="secondary">Light Blue</ion-select-option>
+          <ion-select-option value="tertiary">Purple</ion-select-option>
+          <ion-select-option value="success">Green</ion-select-option>
+          <ion-select-option value="warning">Yellow</ion-select-option>
           <ion-select-option value="danger">Red</ion-select-option>
           <ion-select-option value="dark">Black</ion-select-option>
+          <ion-select-option value="medium">Grey</ion-select-option>
         </ion-select>
       </ion-item>
 

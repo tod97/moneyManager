@@ -19,6 +19,10 @@ export class Expense {
     return this.amount;
   }
 
+  getTag() {
+    return this.tag.copy();
+  }
+
   getDate() {
     return this.date;
   }

@@ -27,6 +27,7 @@
       </ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
+      <ion-label color="dark" style="font-weight: bold;" *ngIf="tagList.length == 0">No tags here :(</ion-label>
       <ion-list>
         <div *ngFor="let el of tagList">
           <ion-item-sliding>

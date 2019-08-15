@@ -10,6 +10,14 @@ export class Tag {
     this.color = color;
   }
 
+  getName() {
+    return this.name;
+  }
+
+  getColor() {
+    return this.color;
+  }
+
   copy() {
     return new Tag(this.name, this.icon, this.color);
   }

@@ -16,9 +16,7 @@ export class StorageService {
   historyViewChanged = new Subject<string>();
   private expenseList = [];
   expenseListChanged = new Subject<Expense[]>();
-  private tagList = [
-    new Tag('Default', 'happy', 'primary')
-  ];
+  private tagList = [];
   tagListChanged = new Subject<Tag[]>();
 
   constructor(
@@ -35,7 +33,11 @@ export class StorageService {
       for (let i = 0; val && i < val.length; i++) {
         val[i] = new Tag(val[i].name, val[i].icon, val[i].color);
       }
-      this.tagList = (val) ? val : [new Tag('Default', 'happy', 'primary')];
+      this.tagList = (val) ? val : [
+        new Tag('Generic', 'cash', 'success'),
+        new Tag('Party', 'heart', 'danger'),
+        new Tag('Travel', 'airplane', 'warning')
+      ];
       this.tagListChanged.next(this.tagList);
     });
     storage.get('historyView').then((val) => {

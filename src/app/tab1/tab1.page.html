@@ -1,13 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button [disabled]="expenseList.length == 0" (click)="changeView()">
-        <ion-icon slot="icon-only" name="swap"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-button [disabled]="expenseList.length == 0" routerLink="/stats" routerDirection="forward">
+        <ion-icon slot="icon-only" name="stats"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title>
       History
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="expenseList.length == 0" (click)="changeView()">
+        <ion-icon slot="icon-only" name="swap"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,12 +20,12 @@
   <ion-card *ngIf="expenseList.length == 0">
     <ion-card-header>
       <ion-card-title>
-        Hi dear :)
+        Welcome to Money Manager :)
       </ion-card-title>
-      <ion-card-subtitle>
-        To use this app, add an expense on the center tab!
-      </ion-card-subtitle>
     </ion-card-header>
+    <ion-card-content>
+      <ion-label color="dark" style="font-weight: bold;">To use this app, add an expense on the center tab!</ion-label>
+    </ion-card-content>
   </ion-card>
   <ion-list *ngIf="expenseList.length > 0">
     <div *ngFor="let el of formattedList; let i = index;">
