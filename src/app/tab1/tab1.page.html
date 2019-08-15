@@ -28,32 +28,42 @@
     </ion-card-content>
   </ion-card>
   <ion-list *ngIf="expenseList.length > 0">
-    <div *ngFor="let el of formattedList; let i = index;">
-      <ion-item-divider *ngIf="el.formatDate">
+    <div *ngFor="let dateList of formattedList; let i = index;">
+      <ion-item-divider>
         <ion-label>
-          {{el.formatDate}}
+          {{dateList.formatDate}}
         </ion-label>
         <ion-chip color="danger" slot="end">
-          <ion-label color="dark">{{el.amount}} €</ion-label>
+          <ion-label color="dark">{{dateList.amount}} €</ion-label>
         </ion-chip>
       </ion-item-divider>
-      <ion-item-sliding *ngIf="!el.formatDate">
-        <ion-item>
-          <ion-icon slot="start" [name]="el.tag.icon" [color]="el.tag.color"></ion-icon>
+      <ng-container *ngFor="let tagList of dateList.elements | keys">
+        <ion-item (click)="dateList.elements[tagList].show = !dateList.elements[tagList].show">
+          <ion-icon slot="start" [name]="dateList.elements[tagList].tag.icon" [color]="dateList.elements[tagList].tag.color"></ion-icon>
           <ion-label>
-            <h2 text-wrap>{{el.name}}</h2>
-            <p>{{el.tag.name}}</p>
+            <h2 text-wrap>{{dateList.elements[tagList].tag.name}}</h2>
           </ion-label>
-          <ion-chip slot="end">
-            <ion-label>{{el.amount}} €</ion-label>
+          <ion-chip [color]="dateList.elements[tagList].tag.color" slot="end">
+            <ion-label>{{dateList.elements[tagList].amount}} €</ion-label>
           </ion-chip>
         </ion-item>
-        <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="storage.elDelete(el)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
+        <ion-item-sliding [hidden]="!dateList.elements[tagList].show" *ngFor="let el of dateList.elements[tagList].list">
+          <ion-item margin-horizontal>
+            <ion-label>
+              <h2 text-wrap>{{el.name}}</h2>
+              <p>{{el.tag.name}}</p>
+            </ion-label>
+            <div slot="end">
+              <ion-label>{{el.amount}} €</ion-label>
+            </div>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="storage.elDelete(el)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ng-container>
     </div>
   </ion-list>
 </ion-content>

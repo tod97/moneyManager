@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { StorageService } from '../service/storage.service';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,8 @@ import * as moment from 'moment';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+
+  @ViewChild('content', {static: true}) private content: any;
 
   viewList = ['none', 'daily', 'weekly', 'monthly'];
   historyView: string;
@@ -47,6 +49,12 @@ export class Tab1Page {
     });
   }
 
+  scrollToBottom() {
+    setTimeout( () => {
+      document.querySelector('ion-content').scrollToBottom(500);
+    }, 100);
+  }
+
   changeView() {
     const index = this.viewList.indexOf(this.historyView);
     this.storage.setHistoryView(this.viewList[(index + 1) % 4]);
@@ -55,7 +63,8 @@ export class Tab1Page {
 
   showDivider() {
     if (this.expenseList && this.expenseList.length > 0) {
-      if (this.historyView !== 'none') {
+      if (this.historyView && this.historyView !== 'none') {
+        //SET VIEW DIVIDER
         this.formattedList = [];
         for (let i = 0; i < this.expenseList.length; i++) {
           switch (this.historyView) {
@@ -63,50 +72,74 @@ export class Tab1Page {
               if (i === 0 || (i > 0 &&
                 !moment(this.expenseList[i].getDate()).startOf('day').isSame(moment(this.expenseList[i - 1].getDate()).startOf('day')))) {
                   this.formattedList.push({
-                    formatDate: moment(this.expenseList[i].getDate()).startOf('day').format('DD MMMM YYYY')
+                    formatDate: moment(this.expenseList[i].getDate()).startOf('day').format('DD MMMM YYYY'),
+                    elements: {},
+                    amount: 0
                   });
               }
-              this.formattedList.push(this.expenseList[i]);
               break;
             case 'weekly':
               if (i === 0 || (i > 0 &&
                 !moment(this.expenseList[i].getDate()).startOf('week').isSame(moment(this.expenseList[i - 1].getDate()).startOf('week')))) {
                   this.formattedList.push({
-                    formatDate: 'Week of: ' + moment(this.expenseList[i].getDate()).startOf('week').format('DD MMMM YYYY')
+                    formatDate: 'Week of: ' + moment(this.expenseList[i].getDate()).startOf('week').format('DD MMMM YYYY'),
+                    elements: {},
+                    amount: 0
                   });
               }
-              this.formattedList.push(this.expenseList[i]);
               break;
             case 'monthly':
               if (i === 0 || (i > 0 &&
                 !moment(this.expenseList[i].getDate()).startOf('month').isSame(moment(this.expenseList[i - 1].getDate()).startOf('month')))) {
                   this.formattedList.push({
-                    formatDate: moment(this.expenseList[i].getDate()).startOf('month').format('MMMM YYYY')
+                    formatDate: moment(this.expenseList[i].getDate()).startOf('month').format('MMMM YYYY'),
+                    elements: {},
+                    amount: 0
                   });
               }
-              this.formattedList.push(this.expenseList[i]);
               break;
+          }
+          if (this.formattedList.length > 0) {
+            if (!this.formattedList[this.formattedList.length - 1].elements[this.expenseList[i].getTag().getName()]) {
+              this.formattedList[this.formattedList.length - 1].elements[this.expenseList[i].getTag().getName()] = {
+                tag: this.expenseList[i].getTag(),
+                list: [],
+                show: false,
+                amount: 0
+              };
+            }
+            this.formattedList[this.formattedList.length - 1].elements[this.expenseList[i].getTag().getName()].list.push(
+              this.expenseList[i]
+            );
+            this.formattedList[this.formattedList.length - 1].elements[this.expenseList[i].getTag().getName()].amount += this.expenseList[i].getAmount();
+            this.formattedList[this.formattedList.length - 1].amount += this.expenseList[i].getAmount();
           }
         }
       } else {
+        //SHOW NO VIEW TOTAL
         this.formattedList = [];
         this.formattedList.push({
-          formatDate: 'Total'
+          formatDate: 'Total',
+          elements: {},
+          amount: 0
         });
         for (const el of this.expenseList) {
-          this.formattedList.push(el);
-        }
-      }
-      let sum = 0;
-      for (let i = this.formattedList.length - 1; i >= 0; i--) {
-        if (!this.formattedList[i].formatDate) {
-          sum += this.formattedList[i].amount;
-        } else {
-          this.formattedList[i].amount = sum;
-          sum = 0;
+          if (!this.formattedList[0].elements[el.getTag().getName()]) {
+            this.formattedList[0].elements[el.getTag().getName()] = {
+              tag: el.getTag(),
+              list: [],
+              show: false,
+              amount: 0
+            };
+          }
+          this.formattedList[0].elements[el.getTag().getName()].list.push(el);
+          this.formattedList[0].elements[el.getTag().getName()].amount += el.getAmount();
+          this.formattedList[0].amount += el.getAmount();
         }
       }
       console.log(this.formattedList);
+
+      this.scrollToBottom();
     }
   }
 

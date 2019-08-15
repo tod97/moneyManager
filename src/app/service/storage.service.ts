@@ -88,7 +88,7 @@ export class StorageService {
       this.expenseList.sort((a, b) => {
         a = moment(a.date);
         b = moment(b.date);
-        return a.isBefore(b);
+        return a.isAfter(b);
       });
       this.expenseListChanged.next(this.expenseList);
       this.storeExpenseList();

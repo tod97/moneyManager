@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
+import { KeysPipe } from '../pipe/keys.pipe';
 
 import { MomentModule } from 'ngx-moment';
 
@@ -15,6 +16,6 @@ import { MomentModule } from 'ngx-moment';
     RouterModule.forChild([{ path: '', component: Tab1Page }]),
     MomentModule
   ],
-  declarations: [Tab1Page]
+  declarations: [Tab1Page, KeysPipe]
 })
 export class Tab1PageModule {}
