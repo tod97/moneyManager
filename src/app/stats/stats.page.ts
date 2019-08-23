@@ -37,6 +37,7 @@ export class StatsPage implements OnInit {
   ngOnInit() {}
 
   formatStats() {
+    console.log(this.expenseList);
     const format = {labels: [], total: [], datasets: [{data: [], backgroundColor: []}]};
     let sum = 0;
     for (const el of this.expenseList) {
@@ -54,6 +55,7 @@ export class StatsPage implements OnInit {
       format.datasets[0].data.push(Math.round((format.total[i] * 100) / sum));
     }
     this.formattedStats = format;
+    console.log(this.formattedStats);
   }
 
   fromColorToRGB(color) {

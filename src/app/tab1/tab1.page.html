@@ -34,7 +34,7 @@
           {{dateList.formatDate}}
         </ion-label>
         <ion-chip color="danger" slot="end">
-          <ion-label color="dark">{{dateList.amount}} €</ion-label>
+          <ion-label color="dark">{{dateList.amount | number:'0.0-2'}} €</ion-label>
         </ion-chip>
       </ion-item-divider>
       <ng-container *ngFor="let tagList of dateList.elements | keys">
@@ -44,7 +44,7 @@
             <h2 text-wrap>{{dateList.elements[tagList].tag.name}}</h2>
           </ion-label>
           <ion-chip [color]="dateList.elements[tagList].tag.color" slot="end">
-            <ion-label>{{dateList.elements[tagList].amount}} €</ion-label>
+            <ion-label>{{dateList.elements[tagList].amount | number:'0.0-2'}} €</ion-label>
           </ion-chip>
         </ion-item>
         <ion-item-sliding [hidden]="!dateList.elements[tagList].show" *ngFor="let el of dateList.elements[tagList].list">
@@ -54,7 +54,7 @@
               <p>{{el.tag.name}}</p>
             </ion-label>
             <div slot="end">
-              <ion-label>{{el.amount}} €</ion-label>
+              <ion-label>{{el.amount | number:'0.0-2'}} €</ion-label>
             </div>
           </ion-item>
           <ion-item-options side="end">

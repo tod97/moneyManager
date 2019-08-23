@@ -8,6 +8,19 @@
 </ion-header>
 
 <ion-content>
+  <!--<ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>
+        Total expenses
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <app-chart [stats]="formattedStats"></app-chart>
+      <p *ngFor="let el of formattedStats.labels; let i = index;">
+        <strong>{{el}}</strong>: {{formattedStats.total[i]}} €
+      </p>
+    </ion-card-content>
+  </ion-card>-->
   <ion-card>
     <ion-card-header>
       <ion-card-subtitle>
